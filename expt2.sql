@@ -1,0 +1,41 @@
+CREATE DATABASE universitydb1;
+USE universitydb1;
+CREATE TABLE Instructor(
+InstructorId INT PRIMARY KEY,
+Name VARCHAR(100) NOT NULL,
+Department VARCHAR(50)
+);
+CREATE TABLE Course(
+CourseId INT PRIMARY KEY,
+Title VARCHAR(100) NOT NULL,
+Credits INT CHECK(Credits>0),
+InstructorId INT, 
+FOREIGN KEY(InstructorId) REFERENCES 
+Instructor(InstructorId)
+ON DELETE SET NULL
+ON UPDATE CASCADE
+);
+CREATE TABLE Student(
+RollNo INT PRIMARY KEY,
+Name VARCHAR(100) NOT NULL,
+DOB DATE,
+Department VARCHAR(50)
+);
+CREATE TABLE Enrollment(
+RollNo INT, 
+CourseId INT,
+Grade CHAR(2),
+PRIMARY KEY(RollNo, CourseId),
+FOREIGN KEY(RollNo)REFERENCES
+Student(RollNo)
+ON DELETE CASCADE
+ON UPDATE CASCADE,
+FOREIGN KEY(CourseId) REFERENCES Course(CourseId)
+ON DELETE CASCADE
+ON UPDATE CASCADE
+);
+CREATE INDEX idx_student_dept ON Student(DEPARTMENT);
+CREATE INDEX IDX_COURSE_INSTRUCTOR ON Course(InstructorId);
+ALTER TABLE Student ADD Email VARCHAR(100);
+DROP TABLE Enrollment;
+SELECT * FROM Student;
